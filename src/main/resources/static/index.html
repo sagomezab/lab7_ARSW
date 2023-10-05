@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Blueprints</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script src="js/apimock.js"></script>
+        <script src="js/apiclient.js"></script>
+        <script src="js/app.js"></script>
+        
+
+        <script src="/webjars/jquery/jquery.min.js"></script>
+        <script src="/webjars/bootstrap/5.3.2/js/bootstrap.min.js"></script>
+        <link rel="stylesheet"
+          href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css" />
+
+    </head>
+<body>
+    <div style="margin-left: 1%;">
+        <h1 class="text-primary">Blueprints</h1>
+        <div class="card" style="width:50%; margin-bottom:5%;">
+            <div class="card-body">
+                <div class="mb-3"> 
+                    <label id= "name" for="author">Author:</label>
+                    <input type="text" id="author" name="author">
+                    <button type="button" onclick="app.getBlueprintsByAuthor()">Get Blueprints</button>
+                </div>      
+            </div>
+        </div>
+    </div>
+    <div style="display: flex; align-items: flex-start;">
+        <div  style="margin-right: 20px;">
+            <label id= "nameTable" style="font-size: 18px; font-weight: bold;">Author:</label>
+            <table id="blueprintsTable" class = "table">
+                <thead>
+                    <tr>
+                        <th>Blueprint name</th>
+                        <th>Number of points</th>
+                        <th>OPEN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Aquí se agregarán filas con datos de planos -->
+                </tbody>
+            </table>
+            <div>
+                <label style="font-size: 18px; font-weight: bold;">Total Points:</label>
+                <label id="points"></label>
+            </div>
+        </div>
+        <div div style="margin-left: 1%;">
+            <h2 id="titleCanva">Current Blueprint:</h2>
+            <canvas id="canvita" width="400" height="400" style="border: 1px solid black;" class="mypanel">
+            </canvas>
+        </div>
+    </div>
+    
+</body>
+
+</html>

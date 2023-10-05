@@ -1,0 +1,12 @@
+CONDICIONES DE CARRERA:
+Las condiciones de carrera pueden surgir al acceder al HashMap que almacena los planos en los siguientes casos:
+
+Modificación Concurrente: Cuando se intenta modificar un plano mientras otra persona está consultándolo al mismo tiempo.
+
+Inserción y Consulta Concurrente: Cuando se añade un nuevo plano y se intenta consultarlo simultáneamente.
+
+REGIONES CRÍTICAS:
+La raíz del problema se encuentra en que la colección de "blueprints" no es segura para subprocesos (thread-safe), lo que hace posible que se presenten condiciones de carrera.
+
+SOLUCIÓN:
+Para evitar este problema y garantizar que la colección de planos sea segura para subprocesos, hemos optado por cambiar el tipo de colección "blueprints". Ahora, para consultar y modificar los planos, hemos implementado un mecanismo de sincronización que permite a múltiples usuarios interactuar con los planos de manera segura y ordenada.
