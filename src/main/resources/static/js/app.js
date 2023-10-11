@@ -1,5 +1,6 @@
 app = (function(){
     var author;
+    var point = [];
     var apic = apiclient;
     var apicm = apimock;
     var api = apic;
@@ -44,25 +45,60 @@ app = (function(){
         api.getBlueprintsByNameAndAuthor(author, blueprintName, draw);
     }
 
-    function draw (data){
-        const puntos = data.points;
-        var c = document.getElementById("canvita");
-        var ctx = c.getContext("2d");
-        ctx.clearRect(0, 0, c.width, c.height);
-        ctx.restore();
+    function draw (blueprint){
+        can = document.getElementById("canvita");
+        ctx = can.getContext("2d");
         ctx.beginPath();
-        for (let i = 1; i < puntos.length; i++) {
-            ctx.moveTo(puntos[i - 1].x, puntos[i - 1].y);
-            ctx.lineTo(puntos[i].x, puntos[i].y);
-            if (i === puntos.length - 1) {
-                ctx.moveTo(puntos[i].x, puntos[i].y);
-                ctx.lineTo(puntos[0].x, puntos[0].y);
-            }
+        var plano = blueprint.points;
+        var temp =[];
+        for (let i = 0; i < plano.length; i++) {
+            temp[i] = plano[i]
         }
+        point.forEach((element) => {
+            temp.push(element);
+        })
+        blueprintsPoints = temp.slice(1, temp.length);
+        initx = blueprint.points[0].x;
+        inity = blueprint.points[0].y;
+        blueprintsPoints.forEach((element) => {
+        ctx.moveTo(initx, inity);
+        ctx.lineTo(element.x, element.y);
         ctx.stroke();
+        initx = element.x;
+        inity = element.y;
+        });
+    }
+
+    function mousePos(canvas, evt){
+        var ClientRect = canvas.getBoundingClientRect();
+        return { 
+            x: Math.round(evt.clientX - ClientRect.left),
+            y: Math.round(evt.clientY - ClientRect.top)
+        }
+    }
+
+    function init (){
+        var canvas = document.getElementById("canvita"),
+            context = canvas.getContext("2d");
+
+        if(window.PointerEvent) {
+            canvas.addEventListener("pointerdown", function(event){
+                if(author !== "" && blueprintName !== undefined){
+
+                    raton = mousePos(canvas,event)
+                    point.push({"x": raton.x, "y":raton.y});
+                    apic.getBlueprintsByNameAndAuthor(author,blueprintName , draw);
+                }else {
+                    alert("No blueprint has been selected.")
+                }
+
+
+            });
+        }
     }
 
     return {
+        init:init,
         getBlueprintsByAuthor:getBlueprintsByAuthor,
         getBlueprintsByNameAndAuthor:getBlueprintsByNameAndAuthor
     }

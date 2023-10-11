@@ -23,7 +23,7 @@ var getBlueprintsByNameAndAuthor = function(author, name, callback){
 
 return {
     getBlueprintsByAuthor:getBlueprintsByAuthor,
-    getBlueprintsByNameAndAuthor:getBlueprintsByNameAndAuthor
+    getBlueprintsByNameAndAuthor:getBlueprintsByNameAndAuthor,
 }
 
 
