@@ -12,7 +12,6 @@ import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
 import edu.eci.arsw.blueprints.persistence.BlueprintsPersistence;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -92,6 +91,15 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
         }
 
         return bp;
+    }
+
+    @Override
+    public void deleteBlueprint(String author,String bpname) throws BlueprintNotFoundException {
+        Tuple tuple = new Tuple<>(author, bpname);
+        if(!blueprints.containsKey(tuple)){
+            throw new BlueprintNotFoundException("The given blueprint not  exists: " + bpname);
+        }
+        blueprints.remove(tuple);
     }
 
 

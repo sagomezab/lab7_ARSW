@@ -10,7 +10,14 @@ apimock=(function(){
 	mockdata["maryweyland"]=[{author:"maryweyland","points":[{"x":140,"y":140},{"x":115,"y":115}],"name":"house2"},
 	 {author:"maryweyland","points":[{"x":140,"y":140},{"x":115,"y":115}],"name":"gear2"},
 	 {author:"maryweyland","points":[{"x":340,"y":340},{"x":215,"y":115}],"name":"gear4"}];
+	
 
+	 function addPoint(puntos, author, bpname, callback){
+		puntos.forEach((element) => {
+			mockdata[author].find(function(e){return e.name===bpname}).points.push(element);
+		})
+		callback();
+	}
 
 	return {
 		getBlueprintsByAuthor:function(authname,callback){
@@ -24,7 +31,9 @@ apimock=(function(){
 			callback(
 				mockdata[authname].find(function(e){return e.name===bpname})
 			);
-		}
+		},
+
+		addPoint:addPoint
 	}	
 
 })();

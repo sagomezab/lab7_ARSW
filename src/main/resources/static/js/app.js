@@ -10,7 +10,9 @@ app = (function(){
     }
 
     function getBlueprintsByAuthor() {
+        clearCanva();
         author = $("#author").val();
+        point = [];
         api.getBlueprintsByAuthor(author,tableData);
     }
 
@@ -39,34 +41,49 @@ app = (function(){
     }
 
     function getBlueprintsByNameAndAuthor(data){
+        point = [];
         author = $("#author").val();
         blueprintName = data.id;
         $("#titleCanva").text("Current Blueprint: " + blueprintName);
         api.getBlueprintsByNameAndAuthor(author, blueprintName, draw);
     }
 
+    function clearCanva(){
+        can = document.getElementById("canvita");
+        ctx = can.getContext("2d");
+        ctx.clearRect(0, 0, can.width, can.height);
+    }
+
     function draw (blueprint){
+        clearCanva();
         can = document.getElementById("canvita");
         ctx = can.getContext("2d");
         ctx.beginPath();
         var plano = blueprint.points;
-        var temp =[];
-        for (let i = 0; i < plano.length; i++) {
-            temp[i] = plano[i]
+        console.log(plano);
+        if (blueprint && blueprint.points && blueprint.points.length > 0) {
+            
+            var temp = [];
+            for (let i = 0; i < plano.length; i++) {
+                temp[i] = plano[i];
+            }
+            point.forEach((element) => {
+                temp.push(element);
+            });
+            console.log(temp);
+            var blueprintsPoints = temp.slice(1, temp.length);
+            var initx = blueprint.points[0].x;
+            var inity = blueprint.points[0].y;
+            blueprintsPoints.forEach((element) => {
+                ctx.moveTo(initx, inity);
+                ctx.lineTo(element.x, element.y);
+                ctx.stroke();
+                initx = element.x;
+                inity = element.y;
+            });
+        } else {
+            console.error("Blueprint or blueprint.points is undefined or empty.");
         }
-        point.forEach((element) => {
-            temp.push(element);
-        })
-        blueprintsPoints = temp.slice(1, temp.length);
-        initx = blueprint.points[0].x;
-        inity = blueprint.points[0].y;
-        blueprintsPoints.forEach((element) => {
-        ctx.moveTo(initx, inity);
-        ctx.lineTo(element.x, element.y);
-        ctx.stroke();
-        initx = element.x;
-        inity = element.y;
-        });
     }
 
     function mousePos(canvas, evt){
@@ -84,7 +101,6 @@ app = (function(){
         if(window.PointerEvent) {
             canvas.addEventListener("pointerdown", function(event){
                 if(author !== "" && blueprintName !== undefined){
-
                     raton = mousePos(canvas,event)
                     point.push({"x": raton.x, "y":raton.y});
                     apic.getBlueprintsByNameAndAuthor(author,blueprintName , draw);
@@ -97,10 +113,49 @@ app = (function(){
         }
     }
 
+    function updateNameAuthor(){
+        api.getBlueprintsByAuthor(author, tableData)
+    }
+
+    async function addPoints(){
+        if (author !== "" && blueprintName !== undefined && point.length > 0) {
+            for (var i = 0; i < point.length; i++) {
+                var x = point[i].x;
+                var y = point[i].y;
+                console.log(x);
+                console.log(y);
+                await api.addPoints(x, y, author, blueprintName);
+            }
+        } else {
+            alert("No hay puntos para agregar o no se ha seleccionado un plano.");
+        }
+    }
+
+    function createBlueprint(){
+        clearCanva();
+        var bpName = prompt("Name of the new blueprint.");
+        api.createBlueprint(author, bpName).then(() => {
+            getBlueprintsByAuthor();
+        })  
+        .catch(err => console.log(err))
+    }
+
+    function deleteBlueprint(){
+        clearCanva();
+        apiclient.deleteBlueprint(author, blueprintName).then(() => {
+            getBlueprintsByAuthor();
+        })
+        .catch(err => console.log(err))
+    }
+
     return {
         init:init,
         getBlueprintsByAuthor:getBlueprintsByAuthor,
-        getBlueprintsByNameAndAuthor:getBlueprintsByNameAndAuthor
+        updateNameAuthor:updateNameAuthor,
+        getBlueprintsByNameAndAuthor:getBlueprintsByNameAndAuthor,
+        addPoints:addPoints,
+        createBlueprint:createBlueprint,
+        deleteBlueprint:deleteBlueprint
     }
 
 })();

@@ -51,7 +51,14 @@
         </div>
         <div div style="margin-left: 1%;">
             <h2 id="titleCanva">Current Blueprint:</h2>
+            <div>
+                <button id="createBlueprint" type='button' class='btn btn-primary' onclick="app.createBlueprint()">Create new blueprint</button>
+            </div>
             <canvas id="canvita" width="400" height="400" style="border: 1px solid black;" onclick="app.init()"></canvas>
+            <div id = "bodySaveUpdate">
+                <button  type='button' class='btn btn-success' onclick="app.addPoints()">Save/Update</button>
+                <button type='button'  class='btn btn-danger' onclick="app.deleteBlueprint()">Delete</button>
+            </div>
         </div>
     </div>
     
