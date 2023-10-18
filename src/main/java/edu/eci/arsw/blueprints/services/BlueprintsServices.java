@@ -12,6 +12,7 @@ import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
 import edu.eci.arsw.blueprints.persistence.BlueprintsPersistence;
 import edu.eci.arsw.blueprints.filters.BlueprintsFilters;
 
+import java.util.List;
 import java.util.Set;
 
 
@@ -72,5 +73,9 @@ public class BlueprintsServices {
 
     public void deleteBluePrintByAuthorAndName(String author, String name) throws BlueprintNotFoundException {
         bpp.deleteBlueprint(author, name);
+    }
+
+    public void updatePoints(String author, String bpname, List<Point> points) {
+        bpp.updatePoints(author, bpname, points);
     }
 }

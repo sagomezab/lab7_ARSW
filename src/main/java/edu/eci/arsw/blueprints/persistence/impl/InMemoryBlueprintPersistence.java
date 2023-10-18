@@ -13,6 +13,7 @@ import edu.eci.arsw.blueprints.persistence.BlueprintsPersistence;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -91,6 +92,12 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
         }
 
         return bp;
+    }
+
+    @Override
+    public void updatePoints(String author, String bpname, List<Point> points) {
+        Blueprint b = blueprints.get(new Tuple<>(author, bpname));
+        b.addPoint(points.get(0));
     }
 
     @Override

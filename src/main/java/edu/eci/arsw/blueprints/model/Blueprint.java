@@ -55,7 +55,7 @@ public class Blueprint {
     }
 
     public void setPoints(List<Point> points){
-        this.points = points;
+        this.points = (ArrayList<Point>) points;
     }
 
     @Override
@@ -98,7 +98,6 @@ public class Blueprint {
         
         return true;
     }
-    
     
     
 }

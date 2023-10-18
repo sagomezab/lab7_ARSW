@@ -59,10 +59,9 @@ app = (function(){
         can = document.getElementById("canvita");
         ctx = can.getContext("2d");
         ctx.beginPath();
-        var plano = blueprint.points;
-        console.log(plano);
+        //console.log(plano);
         if (blueprint && blueprint.points && blueprint.points.length > 0) {
-            
+            var plano = blueprint.points;
             var temp = [];
             for (let i = 0; i < plano.length; i++) {
                 temp[i] = plano[i];
@@ -70,7 +69,6 @@ app = (function(){
             point.forEach((element) => {
                 temp.push(element);
             });
-            console.log(temp);
             var blueprintsPoints = temp.slice(1, temp.length);
             var initx = blueprint.points[0].x;
             var inity = blueprint.points[0].y;
@@ -103,7 +101,8 @@ app = (function(){
                 if(author !== "" && blueprintName !== undefined){
                     raton = mousePos(canvas,event)
                     point.push({"x": raton.x, "y":raton.y});
-                    apic.getBlueprintsByNameAndAuthor(author,blueprintName , draw);
+                    //console.log(point);
+                    api.getBlueprintsByNameAndAuthor(author,blueprintName , draw);
                 }else {
                     alert("No blueprint has been selected.")
                 }
@@ -122,12 +121,13 @@ app = (function(){
             for (var i = 0; i < point.length; i++) {
                 var x = point[i].x;
                 var y = point[i].y;
-                console.log(x);
-                console.log(y);
-                await api.addPoints(x, y, author, blueprintName);
+                //console.log(x);
+                //console.log(y);
+                await api.addPoints(x, y, author, blueprintName, getBlueprintsByAuthor);
+                api.getBlueprintsByNameAndAuthor(author, blueprintName, draw);
             }
         } else {
-            alert("No hay puntos para agregar o no se ha seleccionado un plano.");
+            alert("There are no points to add or a blueprint has not been selected.");
         }
     }
 

@@ -87,18 +87,21 @@ public class BlueprintAPIController {
 
     @RequestMapping(path = "/{author}/{bpname}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> manejadorPutRecursoXX(@PathVariable String author, @PathVariable String bpname, @RequestBody Blueprint blueprint) throws BlueprintNotFoundException{
-        Blueprint blueprintCreate = null;
-        try {
-            blueprintCreate = bs.getBlueprint(author, bpname);
-            blueprintCreate.setAuthor(blueprint.getAuthor());
-            blueprintCreate.setName(blueprint.getName());
-            blueprintCreate.setPoints(blueprint.getPoints());
-
+        //Blueprint blueprintCreate = null;
+        //try {
+            //blueprintCreate = bs.getBlueprint(author, bpname);
+            //blueprintCreate.setAuthor(blueprint.getAuthor());
+            //System.out.println(blueprint.getAuthor());
+            //blueprintCreate.setName(blueprint.getName());
+            //System.out.println(blueprint.getName());
+            //blueprintCreate.setPoints(blueprint.getPoints());
+            //System.out.println(blueprint.getPoints());
+            bs.updatePoints(author, bpname, blueprint.getPoints());
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
-        }catch (BlueprintNotFoundException ex) {
+        //}catch (BlueprintNotFoundException ex) {
             //Logger.getLogger(BlueprintAPIController.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>("Working...",HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+          //  return new ResponseEntity<>("Working...",HttpStatus.INTERNAL_SERVER_ERROR);
+        //}
     }
     
     @DeleteMapping(path = "/{author}/{bpname}")

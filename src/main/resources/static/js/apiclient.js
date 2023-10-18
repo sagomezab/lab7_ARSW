@@ -21,15 +21,17 @@ var getBlueprintsByNameAndAuthor = function(author, name, callback){
     });
 };
 
-var addPoints = function(pointX, pointY, author, bpName){
+var addPoints = function(pointX, pointY, author, bpName, callback){
     var data = JSON.stringify({author:author,"points":[{"x":pointX,"y":pointY}],"name":bpName});
+    console.log(data);
     $.ajax({
         type: "PUT",
         url: "http://localhost:8080/blueprints/" + author + "/" + bpName,
         contentType: "application/json; charset=utf-8",
-        data:data,
-        dataType: "application/json"
+        dataType: "json",
+        data:data
     });
+    callback();
 };
 
 
